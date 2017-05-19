@@ -1,8 +1,8 @@
-package com.github.fssforj.function;
+package com.github.fssforj.problem;
 
-public class RosenbrockFunction extends Problem
+public class RotatedRastriginFunction extends Problem
 {
-    public RosenbrockFunction(int dimension, double bottomDomainLimit, double topDomainLimit)
+    public RotatedRastriginFunction(int dimension, double bottomDomainLimit, double topDomainLimit)
     {
 	super(dimension, bottomDomainLimit, topDomainLimit);
     }
@@ -12,9 +12,9 @@ public class RosenbrockFunction extends Problem
     {
 	double fitness = 0;
 
-	for (int i = 0; i < position.length - 1; i++)
+	for (int i = 0; i < position.length; i++)
 	{
-	    fitness += 100 * Math.pow((Math.pow(position[i], 2) - position[i + 1]), 2) + Math.pow(position[i] - 1, 2);
+	    fitness += Math.pow(position[i], 2) - 10 * Math.cos(2 * Math.PI * position[i]) + 10;
 	}
 
 	return fitness;

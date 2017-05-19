@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.github.fssforj.fish.Fish;
-import com.github.fssforj.function.Problem;
+import com.github.fssforj.problem.Problem;
 import com.github.fssforj.school.School;
 import com.github.fssforj.utils.FSSConfig;
 import com.github.fssforj.utils.MathUtils;
@@ -24,14 +24,14 @@ public class FSS
 	this.fssConfig = fssConfig;
     }
 
-    public double optmize()
+    public double[] optmize()
     {
-	double bestResult = 0;
+	double[] results = new double[this.fssConfig.getNumberOfIterations()];
 
 	this.initializeSchool();
 
 	for (int i = 0; i < this.fssConfig.getNumberOfIterations(); i++)
-	{
+	{   
 	    List<Double> fitnessVariations = doIndividualFishesMovement();
 	    double maximumVariation = Collections.max(fitnessVariations);
 	    feedFishes(maximumVariation);
@@ -44,12 +44,12 @@ public class FSS
 	    doVolitionalMovement(barycenter);
 
 	    updateIndividualStepArray();
+	    
+	    results[i] = getBestSchoolFitness();
+	    System.out.println("[INFO] Fitness = " + results[i]);
 	}
 
-	double[] bestResultPosition = getBestSchoolPosition();
-	bestResult = this.problem.fitness(bestResultPosition);
-
-	return bestResult;
+	return results;
     }
 
     private List<Double> doIndividualFishesMovement()
@@ -241,9 +241,9 @@ public class FSS
 
     }
 
-    private double[] getBestSchoolPosition()
+    private double getBestSchoolFitness()
     {
-	double[] bestPosition = null;
+	double bestFitness = 0;
 	
 	for (int i = 0; i < this.school.getFishes().length; i++)
 	{
@@ -251,22 +251,21 @@ public class FSS
 	    
 	    if(i == 0)
 	    {
-		bestPosition = currentFish.getCurrentPosition();
+		bestFitness = this.problem.fitness(currentFish.getCurrentPosition());
 	    }
 	    else
 	    {
-		double bestPositionFitness = this.problem.fitness(bestPosition);
 		double currentPositionFitness = this.problem.fitness(currentFish.getCurrentPosition());
 		
-		if(this.problem.compareFitness(currentPositionFitness, bestPositionFitness))
+		if(this.problem.compareFitness(currentPositionFitness, bestFitness))
 		{
-		    bestPosition = currentFish.getCurrentPosition();
+		    bestFitness = currentPositionFitness;
 		}
 	    }
 	    
 	}
 	
-	return bestPosition;
+	return bestFitness;
     }
 
     private void initializeSchool()

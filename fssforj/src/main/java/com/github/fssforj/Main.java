@@ -1,7 +1,6 @@
 package com.github.fssforj;
 
-import com.github.fssforj.function.Problem;
-import com.github.fssforj.function.RosenbrockFunction;
+import com.github.fssforj.problem.*;
 import com.github.fssforj.school.School;
 import com.github.fssforj.utils.FSSConfig;
 import com.github.fssforj.utils.PlotUtils;
@@ -45,15 +44,40 @@ public class Main
 	    School school = new School(schoolSize);
 	    FSS fss = new FSS(school, problem, fssConfig);
 	    
-	    double[] simulationsResults = new double[numberOfSimulations];
-	    double[] simulationIndices = new double[numberOfSimulations];
-	    for(int i = 0; i < numberOfSimulations; i++)
+	    double[][] simulationsResults = new double[numberOfSimulations][numberOfIterations];
+	    double[] simulationsResultsMean = new double[numberOfIterations];
+	    
+	    double[] simulationIndices = new double[numberOfIterations];
+	    
+	    for(int i = 0; i < numberOfIterations; i++)
 	    {
+		simulationsResultsMean[i] = 0;
 		simulationIndices[i] = i;
-		simulationsResults[i] = fss.optmize();
 	    }
 	    
-	    PlotUtils.plotXY(simulationIndices, simulationsResults);
+	    for(int i = 0; i < numberOfSimulations; i++)
+	    {
+		System.out.println("-----------------------------------------------------------");
+		System.out.println("[INFO] Simulation " + (i + 1) + " of " + numberOfSimulations);
+		simulationsResults[i] = fss.optmize();
+		System.out.println("-----------------------------------------------------------");
+	    }
+	    
+	    for(int i = 0; i < numberOfSimulations; i++)
+	    {
+		for(int j = 0; j < numberOfIterations; j++)
+		{
+		    simulationsResultsMean[j] += simulationsResults[i][j];
+		}
+	    }
+	    
+	    for(int i = 0; i < numberOfIterations; i++)
+	    {
+		simulationsResultsMean[i] /= numberOfSimulations;
+	    }
+	    
+	    PlotUtils.plotXY(simulationIndices, simulationsResultsMean);
+	    //PlotUtils.plotBoxPlot(simulationsResults);
 	}
 	else
 	{

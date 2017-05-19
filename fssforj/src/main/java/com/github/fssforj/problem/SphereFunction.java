@@ -1,4 +1,4 @@
-package com.github.fssforj.function;
+package com.github.fssforj.problem;
 
 public class SphereFunction extends Problem
 {
