@@ -1,4 +1,4 @@
-package com.github.fssforj.function;
+package com.github.fssforj.problem;
 
 import java.util.concurrent.ThreadLocalRandom;
 
