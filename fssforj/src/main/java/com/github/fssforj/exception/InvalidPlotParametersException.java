@@ -6,6 +6,6 @@ public class InvalidPlotParametersException extends Exception
 
     public InvalidPlotParametersException(String message)
     {
-	super(message);
+        super(message);
     }
 }
