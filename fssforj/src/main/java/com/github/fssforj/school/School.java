@@ -8,16 +8,16 @@ public class School
 
     public School(int schoolSize)
     {
-	this.fishes = new Fish[schoolSize];
+        this.fishes = new Fish[schoolSize];
     }
 
     public Fish[] getFishes()
     {
-	return fishes;
+        return fishes;
     }
 
     public void setFishes(Fish[] fishes)
     {
-	this.fishes = fishes;
+        this.fishes = fishes;
     }
 }
